@@ -1,3 +1,4 @@
+/* Efeito fade-in */
 .fade-in {
     opacity: 0;
     animation: fadeIn 0.5s forwards;
@@ -12,20 +13,84 @@
     }
 }
 
+/* Botão flutuante no canto inferior direito */
+#chat-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+/* Janela de chat */
+#chat-window {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Janela de chat aberta */
+#chat-window.open {
+    display: flex;
+}
+
+/* Estilização geral das mensagens */
+.user-message, .bot-message {
+    padding: 10px 15px;
+    margin: 10px 0;
+    border-radius: 20px;
+    max-width: 80%;
+    position: relative;
+    word-wrap: break-word;
+}
+
+/* Mensagem do usuário (Alinhada à direita) */
 .user-message {
     background-color: #d1ecf1;
     color: #0c5460;
-    padding: 8px 12px;
-    margin: 10px 0;
-    border-radius: 10px;
+    align-self: flex-end; /* Alinha à direita */
     text-align: right;
 }
 
+/* Ponta do balão do usuário */
+.user-message::after {
+    content: "";
+    position: absolute;
+    right: -10px;
+    top: 10px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent transparent #d1ecf1;
+}
+
+/* Mensagem do bot (Alinhada à esquerda) */
 .bot-message {
     background-color: #f8d7da;
     color: #721c24;
-    padding: 8px 12px;
-    margin: 10px 0;
-    border-radius: 10px;
+    align-self: flex-start; /* Alinha à esquerda */
     text-align: left;
+}
+
+/* Ponta do balão do bot */
+.bot-message::after {
+    content: "";
+    position: absolute;
+    left: -10px;
+    top: 10px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent #f8d7da transparent transparent;
 }

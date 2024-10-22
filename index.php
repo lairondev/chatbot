@@ -3,62 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatBot Simples</title>
+    <title>ChatBot Flutuante</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body class="bg-light">
 
-<div class="container mt-5">
-    <div class="card">
-        <div class="card-header text-center bg-primary text-white">
-            <h4>ChatBot Simples</h4>
+<!-- Botão flutuante -->
+<button id="chat-toggle" class="btn btn-primary rounded-circle">
+    💬
+</button>
+
+<!-- Janela do chat -->
+<div id="chat-window" class="chat-window card">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">ChatBot</h5>
+    </div>
+    <div class="card-body" id="chat-box" style="height: 300px; overflow-y: auto;">
+        <div class="bot-message fade-in">
+            Olá! Sou a TerezaBot como posso ajudar?<br>
         </div>
-        <div class="card-body" id="chat-box" style="height: 400px; overflow-y: auto;">
-            <!-- Mensagens aparecerão aqui -->
-            <div class="bot-message fade-in">Olá! Bem-vindo ao nosso chatbot! Escolha uma opção:<br>
-                1. Horário atual<br>
-                2. Sobre o chatbot<br>
-                3. Sair
-            </div>
-        </div>
-        <div class="card-footer">
-            <form id="chat-form">
-                <div class="input-group">
-                    <input type="text" id="user-input" class="form-control" placeholder="Digite sua opção...">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit">Enviar</button>
-                    </div>
+    </div>
+    <div class="card-footer">
+        <form id="chat-form">
+            <div class="input-group">
+                <input type="text" id="user-input" class="form-control" placeholder="Digite sua opção...">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Enviar</button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
 
 <script>
     $(document).ready(function () {
+        // Alternar visibilidade da janela de chat ao clicar no botão
+        $('#chat-toggle').click(function () {
+            $('#chat-window').toggleClass('open');
+        });
+
+        // Enviar mensagens via AJAX
         $('#chat-form').submit(function (e) {
-            e.preventDefault(); // Evita o reload da página
+            e.preventDefault();
             let userInput = $('#user-input').val().trim();
-            
+
             if (userInput !== '') {
-                // Adiciona a mensagem do usuário ao chat
                 $('#chat-box').append('<div class="user-message fade-in">' + userInput + '</div>');
 
-                // Envia a mensagem para o bot.php via AJAX
                 $.ajax({
                     url: 'bot.php',
                     method: 'POST',
                     data: { message: userInput },
                     success: function (response) {
-                        // Adiciona a resposta do bot ao chat
                         $('#chat-box').append('<div class="bot-message fade-in">' + response + '</div>');
-                        $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight); // Scroll automático
+                        $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
                     }
                 });
 
-                $('#user-input').val(''); // Limpa o campo de input
+                $('#user-input').val('');
             }
         });
     });
